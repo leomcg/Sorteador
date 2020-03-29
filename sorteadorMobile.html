@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://kit.fontawesome.com/29e73d09ff.js" crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  
+}
+button {
+  background: rgb(255, 109, 83);
+  color: white;
+  font-size: 27px;
+}
+input {
+  font-family: Roboto, Arial;
+  border-radius: 50%
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  
+}
+
+body {
+  font-family: Roboto, Arial;
+  background: #f0f0f5;
+  background: rgb(37, 37, 37);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.adicionar{
+  display: flex;
+  justify-content: space-between;
+  width: 350px;
+  margin: 15px 0;
+}
+
+.number-input {
+  width: 72px;
+  height: 72px;
+  font-size: 47px;
+  text-align: center;
+  background: rgb(23, 165, 221);
+  border: 1px solid white;
+  color: white;
+  border: solid 1px white;
+}
+
+.btn-adicionar{
+  width: 265px;
+  border: solid 1px white;
+}
+
+.numeros {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  text-align: center;
+  min-height: 103.98px;
+  border: solid 1px black;
+  width: 350px;
+  padding: 10px;
+  background: rgb(180, 180, 180);
+  border: solid 1px white;
+}
+
+.numeros div {
+  margin: 5px;
+  width: 72px;
+  height: 72px;
+  line-height: 72px;
+  font-size: 47px;
+  border: solid 1px white;
+  border-radius: 50%;
+  text-align: center;
+  background: rgb(23, 165, 221);
+  color: white;
+}
+
+.sorteados {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  min-height: 103.98px;
+  border: solid 1px black;
+  width: 350px;
+  padding: 10px;
+  background: rgb(180, 180, 180);
+  border: solid 1px white;
+
+}
+
+.sorteados div {
+  margin: 5px;
+  width: 72px;
+  height: 72px;
+  line-height: 72px;
+  font-size: 47px;
+  border: solid 1px white;
+  border-radius: 50%;
+  text-align: center;
+  background: rgb(23, 165, 221);
+  color: white;
+}
+
+.btn-sortear {
+  width: 350px;
+  height: 70px;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  border: solid 1px white;
+}
+
+.btn-reiniciar {
+  margin-top: 35px;
+  width: 350px;
+  height: 70px;
+  background: rgb(0, 121, 168);
+  border: solid 1px white;
+}
+
+.fa-redo {
+  font-size: 25px;
+  margin-left: 20px;
+}
+
+
+   </style>
+
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="adicionar">
+      <input type="number" class='number-input'>
+      <button class='btn-adicionar'>Adicionar ao sorteio</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="numeros">
+ 
+    </div>
+  </div>
+
+  <div class="sortear container">
+    <button class="btn-sortear">Sortear</button>
+  </div>
+
+
+  <div class="container">
+    <div class="sorteados">
+  
+    </div>
+  </div>
+
+  <div class="reiniciar container">
+    <button class='btn-reiniciar'>
+      Novo sorteio   
+      <i class="fas fa-redo"></i>
+    </button>
+  </div>
+
+
+
+  <script>
+    
+let num = document.querySelector('.number-input')
+let numberContainter = document.querySelector('.numeros')
+let sorteadosContainter = document.querySelector('.sorteados')
+
+
+let numeros = []
+let sorteados = []
+
+isNumero = (num) => num > 0 && Number.isInteger(num) ? true : false 
+
+inSorteio = (num, array) => array.indexOf(Number(num)) != -1 ? true : false
+
+adicionarAoSorteio = () => {
+    if (isNumero(Number(num.value))) {
+        if (inSorteio(num.value, numeros)) {
+            alert('Número já adicionado ao sorteio')
+            num.value = ''
+          
+        } else {
+            let novoNumero = Number(num.value)
+            numeros.push(novoNumero)
+            numberContainter.innerHTML = ''
+            numeros.forEach(cur => numberContainter.insertAdjacentHTML('beforeend', `<div class="number">${cur}</div>`))
+            num.value = ''
+          
+        }
+    } else {
+        alert('Digite um número válido')
+        num.value = ''
+      
+    }
+}
+
+sortear = () => {
+    if (numeros.length === 0) {
+        alert('Adicione números ao sorteio')
+      
+        sorteados = []
+    } else {
+        i = Math.floor(Math.random() * numeros.length)
+        sorteados.push(numeros[i])
+        numeros.splice(i, 1)
+        sorteadosContainter.innerHTML = ''
+        sorteados.forEach(cur => sorteadosContainter.insertAdjacentHTML('beforeend', `<div class="number">${cur}</div>`))
+        numberContainter.innerHTML = ''
+        numeros.forEach(cur => numberContainter.insertAdjacentHTML('beforeend', `<div class="number">${cur}</div>`))
+        num.value = ''
+      
+    }
+}
+
+remover = () => {
+    if (numeros.indexOf(Number(num.value)) === -1) {
+        console.log('Número não está no sorteio')
+    }
+    for (var i = 0; i <= numeros.length; i++) {
+        if (numeros[i] === Number(num.value)) {
+            numeros.splice(i, 1);
+            console.log(`Números a serem sorteados: ${numeros}`)
+            num.value = ''
+          
+        }
+    }
+}
+
+limpar = () => {
+    num.value = ''
+  
+    numeros = []
+    sorteados = []
+    numberContainter.innerHTML = ''
+    sorteadosContainter.innerHTML = ''
+}
+
+document.querySelector('.btn-adicionar').addEventListener('click', adicionarAoSorteio)
+document.addEventListener('keypress', (event) => {
+    if (event.keyCode === 13 || event.which === 13) {
+        adicionarAoSorteio()
+    }
+})
+document.querySelector('.btn-sortear').addEventListener('click', sortear)
+document.querySelector('.reiniciar').addEventListener('click', limpar)
+
+  </script>
+
+</body>
+
+</html>
